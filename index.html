@@ -60,46 +60,35 @@
         font-size: 1.1rem;
       }
       
-      /* 轮播图样式 */
-      .carousel {
-        position: relative;
+      .banner {
         width: 100%;
-        height: 780px;  /* 从 500px 改为 1000px */
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
+        position: relative;
         overflow: hidden;
+        height: 85vh; /* 添加固定高度 */
       }
-
-      .carousel-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-
-      .carousel-item {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 0.6s ease-in-out;
-      }
-
-      .carousel-item.active {
-        opacity: 1;
-      }
-
-      .carousel-item a {
+      
+      .banner .slide {
         display: block;
         width: 100%;
-        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        transition: opacity 0.8s ease;
       }
 
-      .carousel-item img {
+      .banner .slide.active {
+        opacity: 1;
+      }
+      
+      .banner img {
         width: 100%;
-        height: 100%;
+        height: 85vh;
         object-fit: cover;
       }
 
-      .carousel-dots {
+      .dots {
         position: absolute;
         bottom: 20px;
         left: 50%;
@@ -109,22 +98,21 @@
       }
 
       .dot {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.5);
         cursor: pointer;
-        transition: background-color 0.3s ease;
       }
 
       .dot.active {
-        background: #fff;
+        background: white;
       }
-
+      
       .projects {
         padding: 2rem 10%;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);  /* 从 repeat(3, 1fr) 改为 repeat(2, 1fr) */
+        grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
       }
       
@@ -172,7 +160,7 @@
         background: var(--primary-color);
         color: var(--text-color);
         margin-top: 6rem;
-        text-align: left;  /* 从 center 改为 left */
+        text-align: left;
       }
     </style>
   </head>
@@ -186,36 +174,34 @@
       </nav>
     </header>
 
-    <div class="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <a href="commercial-01.html" onclick="event.stopPropagation()">
-            <img src="01/01.jpg" alt="ARO酒吧展示">
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a href="commercial-02.html" onclick="event.stopPropagation()">
-            <img src="02/01.jpg" alt="CUTO清吧展示">
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a href="commercial-03.html" onclick="event.stopPropagation()">
-            <img src="03/01.jpg" alt="Day Day Off展示">
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a href="commercial-04.html" onclick="event.stopPropagation()">
-            <img src="04/01.jpg" alt="丘末烘焙展示">
-          </a>
-        </div>
+    <section class="banner">
+      <div class="slide active">
+        <a href="commercial-01.html">
+          <img src="01/01.jpg" alt="ARO酒吧设计">
+        </a>
       </div>
-      <div class="carousel-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+      <div class="slide">
+        <a href="commercial-04.html">
+          <img src="04/01.jpg" alt="丘末烘焙工坊">
+        </a>
       </div>
-    </div>
+      <div class="slide">
+        <a href="commercial-03.html">
+          <img src="03/01.jpg" alt="Day Day Off">
+        </a>
+      </div>
+      <div class="slide">
+        <a href="commercial-05.html">
+          <img src="05/01.png" alt="田园度假屋">
+        </a>
+      </div>
+      <div class="dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </section>
 
     <section class="projects" id="projects">
       <div class="project-card">
@@ -256,39 +242,43 @@
     </section>
 
     <footer>
-      <p>© 2024 DAYSOFF. 保留所有权利</p>
+      <p>&copy; 2024 DAYSOFF. 保留所有权利</p>
     </footer>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const items = document.querySelectorAll('.carousel-item');
+        const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
-        let currentIndex = 0;
-        
+        let currentSlide = 0;
+
         function showSlide(index) {
-          items.forEach(item => item.classList.remove('active'));
+          slides.forEach((slide, i) => {
+            slide.classList.remove('active', 'prev');
+            // 对于方案2，添加 prev 类来控制滑动方向
+            if (i === (currentSlide + slides.length - 1) % slides.length) {
+              slide.classList.add('prev');
+            }
+          });
           dots.forEach(dot => dot.classList.remove('active'));
-          
-          items[index].classList.add('active');
+          slides[index].classList.add('active');
           dots[index].classList.add('active');
         }
-        
+
         function nextSlide() {
-          currentIndex = (currentIndex + 1) % items.length;
-          showSlide(currentIndex);
+          currentSlide = (currentSlide + 1) % slides.length;
+          showSlide(currentSlide);
         }
-        
-        // 点击小圆点切换图片
+
+        // 点击圆点切换图片
         dots.forEach((dot, index) => {
-          dot.addEventListener('click', (e) => {
-            e.stopPropagation(); // 阻止事件冒泡
-            currentIndex = index;
-            showSlide(currentIndex);
+          dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
           });
         });
-        
+
         // 自动轮播
-        setInterval(nextSlide, 5000);
+        setInterval(nextSlide, 3000);  // 调整为 3 秒
       });
     </script>
   </body>
