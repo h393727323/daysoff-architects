@@ -189,22 +189,22 @@
     <div class="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <a href="commercial-01.html">
+          <a href="commercial-01.html" onclick="event.stopPropagation()">
             <img src="01/01.jpg" alt="ARO酒吧展示">
           </a>
         </div>
         <div class="carousel-item">
-          <a href="commercial-02.html">
+          <a href="commercial-02.html" onclick="event.stopPropagation()">
             <img src="02/01.jpg" alt="CUTO清吧展示">
           </a>
         </div>
         <div class="carousel-item">
-          <a href="commercial-03.html">
+          <a href="commercial-03.html" onclick="event.stopPropagation()">
             <img src="03/01.jpg" alt="Day Day Off展示">
           </a>
         </div>
         <div class="carousel-item">
-          <a href="commercial-04.html">
+          <a href="commercial-04.html" onclick="event.stopPropagation()">
             <img src="04/01.jpg" alt="丘末烘焙展示">
           </a>
         </div>
@@ -256,7 +256,7 @@
     </section>
 
     <footer>
-      <p>&copy; 2024 DAYSOFF. 保留所有权利</p>
+      <p>© 2024 DAYSOFF. 保留所有权利</p>
     </footer>
 
     <script>
@@ -280,7 +280,8 @@
         
         // 点击小圆点切换图片
         dots.forEach((dot, index) => {
-          dot.addEventListener('click', () => {
+          dot.addEventListener('click', (e) => {
+            e.stopPropagation(); // 阻止事件冒泡
             currentIndex = index;
             showSlide(currentIndex);
           });
