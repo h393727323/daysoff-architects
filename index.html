@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daysoff 设计研究室 2025 </title>
+    <title>Daysoff 设计研究室 © 2025</title>
     <meta name="description" content="专业的设计服务，为您打造独特的空间体验">
     
     <!-- Favicon 图标配置 -->
@@ -64,20 +64,28 @@
         width: 100%;
         margin-bottom: 2rem;
         position: relative;
+        height: 85vh;  /* 添加固定高度 */
       }
       
       .banner .slide {
         display: none;
         width: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;  /* 确保 slide 填充整个容器 */
       }
 
       .banner .slide.active {
         display: block;
+        opacity: 1;
       }
       
       .banner img {
         width: 100%;
-        height: 60vh;
+        height: 100%;  /* 改为100%以适应容器 */
         object-fit: cover;
       }
 
@@ -243,29 +251,32 @@
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
         let currentSlide = 0;
-
+    
         function showSlide(index) {
+          // 移除所有slide的active类（此时CSS会自动处理display属性）
           slides.forEach(slide => slide.classList.remove('active'));
           dots.forEach(dot => dot.classList.remove('active'));
+          
+          // 添加active类到当前slide和dot
           slides[index].classList.add('active');
           dots[index].classList.add('active');
         }
-
+    
         function nextSlide() {
           currentSlide = (currentSlide + 1) % slides.length;
           showSlide(currentSlide);
         }
-
-        // 点击圆点切换图片
+    
+        // 点击圆点切换
         dots.forEach((dot, index) => {
           dot.addEventListener('click', () => {
             currentSlide = index;
             showSlide(currentSlide);
           });
         });
-
+    
         // 自动轮播
-        setInterval(nextSlide, 2000);
+        setInterval(nextSlide, 3500);
       });
     </script>
   </body>
